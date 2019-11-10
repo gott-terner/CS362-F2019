@@ -1,0 +1,93 @@
+        -:    0:Source:unittest4.c
+        -:    0:Graph:unittest4.gcno
+        -:    0:Data:unittest4.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdlib.h>
+        -:    2:#include <string.h>
+        -:    3:#include <stdio.h>
+        -:    4:#include <assert.h>
+        -:    5:
+        -:    6:#include "dominion.h"
+        -:    7:#include "dominion_helpers.h"
+        -:    8://#include "dominion.c"
+        -:    9:#include "rngs.h"
+        -:   10://#include "rngs.c"
+        -:   11:
+        -:   12:void checkTwo(int one, int two);
+        -:   13:
+        1:   14:int main() {
+        -:   15:	int prePlayedCards, postPlayedCards, preCoins, postCoins, nextDeckCount;
+        -:   16:
+        1:   17:	int tributeRevealedCards[2] = { -1, -1 };
+        -:   18:
+        1:   19:	int seed = 4;
+        1:   20:	int k[10] = { adventurer, council_room, feast, gardens, mine
+        -:   21:			   , remodel, smithy, village, tribute, great_hall };
+        -:   22:
+        -:   23:	struct gameState G, GTwo;
+        1:   24:	printf("----------------------------------------------------------------------------\n");
+        1:   25:	printf("Begin Testing tributeCardEffect():\n");
+        -:   26:
+        1:   27:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   28:	initializeGame(2, k, seed, &G); // initialize a new game
+        -:   29:
+        1:   30:	prePlayedCards = G.playedCardCount;
+        1:   31:	preCoins = G.coins;
+        -:   32:
+        1:   33:	tributeCardEffect(&G, 0, 1, tributeRevealedCards);
+        -:   34:
+        1:   35:	if (G.deck[1][G.deckCount[1] - 1] == G.deck[1][G.deckCount[1] - 2])
+        -:   36:	{
+    #####:   37:		printf("equal \n");
+        -:   38:	}
+        -:   39:
+        1:   40:	postPlayedCards = G.playedCardCount;
+        1:   41:	postCoins = G.coins;
+        -:   42:
+        1:   43:	printf("Duplicate revealed card test ");
+        1:   44:	checkTwo(postPlayedCards, prePlayedCards);
+        -:   45:
+        1:   46:	printf("Coins increase test ");
+        1:   47:	checkTwo(postCoins, (preCoins + 2));
+        -:   48:
+        1:   49:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   50:	initializeGame(2, k, seed+1, &GTwo); // initialize a new game
+        -:   51:
+        1:   52:	GTwo.deckCount[1] = 1; // set flag for if deckcount and discard count <= 1 for next player
+        -:   53:
+        1:   54:	tributeCardEffect(&GTwo, 0, 1, tributeRevealedCards);  // gaining coverage
+        -:   55:
+        1:   56:	GTwo.discardCount[1] = 1;
+        1:   57:	GTwo.deckCount[1] = 0;
+        -:   58:
+        1:   59:	tributeCardEffect(&GTwo, 0, 1, tributeRevealedCards);
+        -:   60:
+        1:   61:	GTwo.discardCount[1] = 2;
+        1:   62:	GTwo.deckCount[1] = 0;
+        -:   63:
+        1:   64:	tributeCardEffect(&GTwo, 0, 1, tributeRevealedCards);
+        -:   65:
+        -:   66:
+        1:   67:	printf("\n***ALL TESTS COMPLETE\n\n");
+        -:   68:
+        1:   69:	return 0;
+        -:   70:}
+        -:   71:
+        2:   72:void checkTwo(int one, int two)
+        -:   73:{
+        2:   74:	if (one < two)
+        -:   75:	{
+    #####:   76:		printf("Passed \n");
+        -:   77:	}
+        2:   78:	else if (one > two)
+        -:   79:	{
+        2:   80:		printf("Failed \n");
+        -:   81:	}
+        -:   82:	else
+        -:   83:	{
+    #####:   84:		printf("Passed \n");
+        -:   85:	}
+        -:   86:
+        -:   87:	return;
+        -:   88:}

@@ -1,0 +1,80 @@
+        -:    0:Source:unittest3.c
+        -:    0:Graph:unittest3.gcno
+        -:    0:Data:unittest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdlib.h>
+        -:    2:#include <string.h>
+        -:    3:#include <stdio.h>
+        -:    4:#include <assert.h>
+        -:    5:
+        -:    6:#include "dominion.h"
+        -:    7:#include "dominion_helpers.h"
+        -:    8://#include "dominion.c"
+        -:    9:#include "rngs.h"
+        -:   10://#include "rngs.c"
+        -:   11:
+        -:   12:void checkTwo(int one, int two);
+        -:   13:
+        1:   14:int main() {
+        -:   15:	int pTwoPreCount, pTwoPostCount, pThreePreCount, pThreePostCount, playerPreDiscard, playerPostDiscard;
+        -:   16:
+        1:   17:	int seed = 4;
+        1:   18:	int k[10] = { adventurer, council_room, feast, gardens, mine
+        -:   19:			   , remodel, smithy, village, ambassador, great_hall };
+        -:   20:
+        -:   21:	struct gameState G, GTwo;
+        1:   22:	printf("----------------------------------------------------------------------------\n");
+        1:   23:	printf("Begin Testing ambassadorCardEffect():\n");
+        -:   24:
+        1:   25:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   26:	initializeGame(3, k, seed, &G); // initialize a new game
+        -:   27:
+        1:   28:	pTwoPreCount = G.handCount[1];
+        1:   29:	pThreePreCount = G.handCount[2];
+        -:   30:
+        1:   31:	ambassadorCardEffect(1, 1, 0, &G, 0);
+        -:   32:	
+        1:   33:	pTwoPostCount = G.handCount[1];
+        1:   34:	pThreePostCount = G.handCount[2];
+        -:   35:
+        1:   36:	printf("Player 2 gain card test ");
+        1:   37:	checkTwo(pTwoPreCount+1, pTwoPostCount);
+        -:   38:
+        1:   39:	printf("Player 3 gain card test ");
+        1:   40:	checkTwo(pThreePreCount + 1, pThreePostCount);
+        -:   41:
+        1:   42:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   43:	initializeGame(3, k, seed, &GTwo); // initialize a new game
+        -:   44:
+        1:   45:	playerPreDiscard = GTwo.handCount[2];
+        -:   46:
+        1:   47:	ambassadorCardEffect(1, 0, 2, &GTwo, 0);
+        -:   48:
+        1:   49:	playerPostDiscard = GTwo.handCount[2];
+        -:   50:
+        1:   51:	printf("Correct Player Discard Test ");
+        1:   52:	checkTwo(playerPreDiscard, playerPostDiscard);
+        -:   53:
+        1:   54:	printf("\n***ALL TESTS COMPLETE\n\n");
+        -:   55:
+        1:   56:	return 0;
+        -:   57:}
+        -:   58:
+        3:   59:void checkTwo(int one, int two)
+        -:   60:{
+        3:   61:	if (one < two)
+        -:   62:	{
+    #####:   63:		printf("Passed \n");
+        -:   64:	}
+        3:   65:	else if (one > two)
+        -:   66:	{
+        2:   67:		printf("Failed \n");
+        -:   68:	}
+        -:   69:	else
+        -:   70:	{
+        1:   71:		printf("Passed \n");
+        -:   72:	}
+        -:   73:
+        -:   74:	return;
+        -:   75:}
