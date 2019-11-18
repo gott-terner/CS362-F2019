@@ -18,6 +18,7 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
+
 unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c unittest5.c dominion.c rngs.c
 	gcc -o unittest1 unittest1.c dominion.c rngs.c $(CFLAGS)
 		unittest1 >> unittestresults.out
@@ -46,10 +47,25 @@ unittestresults.out: unittest1.c unittest2.c unittest3.c unittest4.c unittest5.c
 		gcov -f -b dominion.c >> unittestresults.out
 	
 
+randomtestresults.out: randomtestcard1.c randomtestcard2.c randomtestcard3.c dominion.c rngs.c
+	gcc -o randomtestcard1 randomtestcard1.c dominion.c rngs.c $(CFLAGS)
+		randomtestcard1 >> randomtestresults.out
+		echo "randomtestcard1 check baronCardEffect()" >> randomtestresults.out
+		gcov -b -f dominion.c >> randomtestresults.out
+	gcc -o randomtestcard2 randomtestcard2.c dominion.c rngs.c $(CFLAGS)
+		randomtestcard2 >> randomtestresults.out
+		echo "randomtestcard2 check minionCardEffect()" >> randomtestresults.out
+		gcov -b -f dominion.c >> randomtestresults.out
+	gcc -o randomtestcard3 randomtestcard3.c dominion.c rngs.c $(CFLAGS)
+		randomtestcard3 >> randomtestresults.out
+		echo "randomtestcard3 check tributeCardEffect()" >> randomtestresults.out
+		gcov -b -f dominion.c >> randomtestresults.out
+	
+
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 
-all: playdom player unittestresults.out
+all: playdom player randomtestresults.out unittestresults.out
 
 clean:
 	rm -f *.o playdom.exe playdom player player.exe *.gcov *.gcda *.gcno *.so *.out unittest1 unittestresults.out

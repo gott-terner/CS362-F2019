@@ -40,6 +40,8 @@ int main() {
 	memset(&G, 23, sizeof(struct gameState));   // clear the game state
 	initializeGame(2, k, seed, &GTwo); // initialize a new game
 
+	GTwo.handCount[1] = 5;
+
 	preCount = GTwo.handCount[1];
 
 	minionCardEffect(0, 1, 0, &GTwo, 1);

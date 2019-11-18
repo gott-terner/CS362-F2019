@@ -45,34 +45,36 @@
         1:   40:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
         1:   41:	initializeGame(2, k, seed, &GTwo); // initialize a new game
         -:   42:
-        1:   43:	preCount = GTwo.handCount[1];
+        1:   43:	GTwo.handCount[1] = 5;
         -:   44:
-        1:   45:	minionCardEffect(0, 1, 0, &GTwo, 1);
+        1:   45:	preCount = GTwo.handCount[1];
         -:   46:
-        1:   47:	postCount = GTwo.handCount[1];
+        1:   47:	minionCardEffect(0, 1, 0, &GTwo, 1);
         -:   48:
-        1:   49:	printf("Drawn Cards Count for choice2 test ");
-        1:   50:	checkTwo(preCount, postCount-1);
-        -:   51:
-        1:   52:	printf("\n***ALL TESTS COMPLETE\n\n");
+        1:   49:	postCount = GTwo.handCount[1];
+        -:   50:
+        1:   51:	printf("Drawn Cards Count for choice2 test ");
+        1:   52:	checkTwo(preCount, postCount-1);
         -:   53:
-        1:   54:	return 0;
-        -:   55:}
-        -:   56:
-        2:   57:void checkTwo(int one, int two)
-        -:   58:{
-        2:   59:	if (one < two)
-        -:   60:	{
-    #####:   61:		printf("Passed \n");
-        -:   62:	}
-        2:   63:	else if (one > two)
-        -:   64:	{
-        2:   65:		printf("Failed \n");
-        -:   66:	}
-        -:   67:	else
-        -:   68:	{
-    #####:   69:		printf("Passed \n");
-        -:   70:	}
-        -:   71:
-        -:   72:	return;
-        -:   73:}
+        1:   54:	printf("\n***ALL TESTS COMPLETE\n\n");
+        -:   55:
+        1:   56:	return 0;
+        -:   57:}
+        -:   58:
+        2:   59:void checkTwo(int one, int two)
+        -:   60:{
+        2:   61:	if (one < two)
+        -:   62:	{
+    #####:   63:		printf("Passed \n");
+        -:   64:	}
+        2:   65:	else if (one > two)
+        -:   66:	{
+        2:   67:		printf("Failed \n");
+        -:   68:	}
+        -:   69:	else
+        -:   70:	{
+    #####:   71:		printf("Passed \n");
+        -:   72:	}
+        -:   73:
+        -:   74:	return;
+        -:   75:}
