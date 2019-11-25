@@ -1,0 +1,80 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include <stdlib.h>
+        -:    2:#include <string.h>
+        -:    3:#include <stdio.h>
+        -:    4:#include <assert.h>
+        -:    5:
+        -:    6:#include "dominion.h"
+        -:    7:#include "dominion_helpers.h"
+        -:    8://#include "dominion.c"
+        -:    9:#include "rngs.h"
+        -:   10://#include "rngs.c"
+        -:   11:
+        -:   12:void checkTwo(int one, int two);
+        -:   13:
+        1:   14:int main() {
+        -:   15:	int cardsInHand, prePlayedCards, postPlayedCards, preCount, postCount;
+        -:   16:
+        1:   17:	int seed = 4;
+        1:   18:	int k[10] = { adventurer, council_room, feast, gardens, mine
+        -:   19:			   , remodel, smithy, village, minion, great_hall };
+        -:   20:
+        -:   21:	struct gameState G;
+        -:   22:	struct gameState GTwo;
+        1:   23:	printf("----------------------------------------------------------------------------\n");
+        1:   24:	printf("Begin Testing minionCardEffect():\n");
+        -:   25:
+        1:   26:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   27:	initializeGame(2, k, seed, &G); // initialize a new game
+        -:   28:
+        1:   29:	prePlayedCards = G.playedCardCount;
+        -:   30:
+        1:   31:	minionCardEffect(1, 0, 0, &G, 0);
+        -:   32:
+        1:   33:	postPlayedCards = G.playedCardCount;
+        -:   34:
+        1:   35:	cardsInHand = G.handCount[0];
+        -:   36:
+        1:   37:	printf("Trash flag test ");
+        1:   38:	checkTwo((prePlayedCards + 1), postPlayedCards);
+        -:   39:
+        1:   40:	memset(&G, 23, sizeof(struct gameState));   // clear the game state
+        1:   41:	initializeGame(2, k, seed, &GTwo); // initialize a new game
+        -:   42:
+        1:   43:	GTwo.handCount[1] = 5;
+        -:   44:
+        1:   45:	preCount = GTwo.handCount[1];
+        -:   46:
+        1:   47:	minionCardEffect(0, 1, 0, &GTwo, 1);
+        -:   48:
+        1:   49:	postCount = GTwo.handCount[1];
+        -:   50:
+        1:   51:	printf("Drawn Cards Count for choice2 test ");
+        1:   52:	checkTwo(preCount, postCount-1);
+        -:   53:
+        1:   54:	printf("\n***ALL TESTS COMPLETE\n\n");
+        -:   55:
+        1:   56:	return 0;
+        -:   57:}
+        -:   58:
+        2:   59:void checkTwo(int one, int two)
+        -:   60:{
+        2:   61:	if (one < two)
+        -:   62:	{
+    #####:   63:		printf("Passed \n");
+        -:   64:	}
+        2:   65:	else if (one > two)
+        -:   66:	{
+        2:   67:		printf("Failed \n");
+        -:   68:	}
+        -:   69:	else
+        -:   70:	{
+    #####:   71:		printf("Passed \n");
+        -:   72:	}
+        -:   73:
+        -:   74:	return;
+        -:   75:}

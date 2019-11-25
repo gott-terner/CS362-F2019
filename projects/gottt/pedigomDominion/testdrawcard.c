@@ -41,6 +41,8 @@ int checkDrawCard(int p, struct gameState *post) {
 
 int main () {
 
+	printf("/n/n/n HERE /n/n/n");
+
     int i, n, r, p, deckCount, discardCount, handCount;
 
     int k[10] = {adventurer, council_room, feast, gardens, mine,
